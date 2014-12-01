@@ -40,11 +40,11 @@ public class StartScreen implements Screen {
 		bg.draw(g); 
 		
 		//draw TITLE
-		g.setFont(new Font("Helvetica",Font.PLAIN,48));
+		g.setFont(new Font("Helvetica",Font.PLAIN,72));
 		g.setColor(new Color(100,100,100));
-		g.drawString("PLATFORMER", 277, 133);
+		g.drawString("SPACE WARS", 217, 133);
 		g.setColor(new Color(255,255,255));
-		g.drawString("PLATFORMER", 280, 130);
+		g.drawString("SPACE WARS", 220, 130);
 
 		
 		//draw MENU OPTIONS

@@ -11,7 +11,7 @@ public class Obstacles {
 	private int y;
 	private int width;
 	private int height;
-	private boolean visible;
+	private boolean active;
 	private int speed;
 	private Image image;
 
@@ -20,8 +20,8 @@ public class Obstacles {
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(path));
 		image = ii.getImage();
 		width = 128;
-		height = 62;
-		this.visible = true;
+		height = 70;
+		this.active = true;
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
@@ -34,6 +34,11 @@ public class Obstacles {
 		}
 		x -= speed;
 	}
+	public void kill() {
+		y += 15;
+		if(y > MainPanel.HEIGHT + height + 100)
+			y = MainPanel.HEIGHT + height + 100;
+	}
 
 	public int getX() {
 		return x;
@@ -43,12 +48,12 @@ public class Obstacles {
 		return y;
 	}
 
-	public boolean isVisible() {
-		return visible;
+	public boolean isActive() {
+		return active;
 	}
 
-	public void setVisible(boolean visible) {
-		this.visible = visible;
+	public void setActivity(boolean activity) {
+		this.active = activity;
 	}
 
 	public Image getImage() {
