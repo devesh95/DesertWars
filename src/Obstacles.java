@@ -12,24 +12,23 @@ public class Obstacles {
 	private int width;
 	private int height;
 	private boolean visible;
-	int speed;
+	private int speed;
 	private Image image;
 
 	public Obstacles (int x, int y, int speed, String location) {
 		this.path = location;
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(path));
 		image = ii.getImage();
-		width = image.getWidth(null);
-		height = image.getHeight(null);
-		visible = true;
+		width = 128;
+		height = 62;
+		this.visible = true;
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
-		y = (int) ((MainPanel.HEIGHT)*Math.random());
 	}
 
 	public void move() {
-		if (x < 0) {
+		if (x < 0 - width) {
 			x = MainPanel.WIDTH + width;
 			y = (int) ((MainPanel.HEIGHT-300)*Math.random());
 		}

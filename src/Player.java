@@ -21,8 +21,8 @@ public class Player {
 		this.path = location;
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(path));
 		image = ii.getImage();
-		width = image.getWidth(null);
-		height = image.getHeight(null);
+		width = 133;
+		height = 62;
 		visible = true;
 		x = 30;
 		y = 390;
