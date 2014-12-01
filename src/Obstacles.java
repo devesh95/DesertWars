@@ -31,7 +31,7 @@ public class Obstacles {
 	public void move() {
 		if (x < 0) {
 			x = MainPanel.WIDTH + width;
-			y = (int) ((MainPanel.HEIGHT)*Math.random());
+			y = (int) ((MainPanel.HEIGHT-300)*Math.random());
 		}
 		x -= speed;
 	}

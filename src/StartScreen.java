@@ -21,6 +21,7 @@ public class StartScreen implements Screen {
 		options = new ArrayList<String>();
 		options.add("START");
 		options.add("INSTRUCTIONS");
+		options.add("HIGH SCORES");
 		options.add("QUIT");
 		try{
 			bg = new MovingBackground("startscreen.png");
@@ -74,6 +75,10 @@ public class StartScreen implements Screen {
 				System.out.println("NO HELP");
 				break;
 			case 2:
+				//show scores
+				System.out.println("No scores as yet");
+				break;
+			case 3:
 				//close game
 				System.exit(0);
 				break;
@@ -88,8 +93,8 @@ public class StartScreen implements Screen {
 				choice --;
 		}
 		if(key == KeyEvent.VK_DOWN){
-			if(choice > 1)
-				choice = 2;
+			if(choice > 2)
+				choice = 3;
 			else
 				choice ++;
 		}

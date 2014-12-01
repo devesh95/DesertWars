@@ -8,8 +8,6 @@ import java.awt.event.*;
 
 import javax.swing.JPanel;
 
-import sun.swing.SwingUtilities2;
-
 /**
  * The main visible JPanel added to the frame. We'll move stuff in and out of 
  * this panel and can update it's contents dynamically

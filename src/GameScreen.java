@@ -1,8 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 
 import com.sun.glass.events.KeyEvent;
 
@@ -15,24 +14,24 @@ public class GameScreen implements Screen{
 
 	private ScreenManager screens;
 	private MovingBackground bg;
-
-	private String HUD;
-	private int speed;
+	private int bgspeed;
 	private double score;
 	private boolean alive;
-	
 	private Player player;
+	private ArrayList<Obstacles> obstacles;
 
 	public GameScreen (ScreenManager s){
 		this.screens = s;
-		speed = -4;
+		bgspeed = -4;
 		score = 0;
 		alive = true;
 		player = new Player("player.gif");
+		obstacles = new ArrayList<Obstacles>();
+		addObstacles();
 		init();
 		try{
 			bg = new MovingBackground("startscreen.png");
-			bg.setSpeed(speed, 0);	
+			bg.setSpeed(bgspeed, 0);	
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -40,18 +39,32 @@ public class GameScreen implements Screen{
 
 	public void init() {
 		// TODO Auto-generated method stub
+		score = 0;
 	}
 
 	public void update() {
 		// TODO Auto-generated method stub
 		if(alive){
-			this.speed -= 0.001;
+			this.bgspeed -= 0.001;
 			score = Math.round(score + 0.5);
 		}else if(!alive){
-			this.speed = 0;
+			this.bgspeed = 0;
 		}
 		bg.move();
 		player.move();
+		if(score % 100 == 0) {
+			System.out.println("TRUE");
+			addObstacles();
+		}
+	}
+
+	public void addObstacles() {
+		obstacles.add(new Obstacles(MainPanel.WIDTH + 35, 
+				//(int) ((MainPanel.HEIGHT - 300)*Math.random())
+				250, 
+				//(int) (15 * Math.random())
+				5, 
+				"obstacles.png"));
 	}
 
 	public void draw(Graphics2D g) {
@@ -61,11 +74,17 @@ public class GameScreen implements Screen{
 		g.setFont(new Font("Helvetica",Font.PLAIN,25));
 		g.setColor(new Color(255,255,255));
 		g.drawString("Score: "+score, 30, 30);
-		
+
 		if (player.isVisible())
-			g.drawImage(player.getImage(), player.getX(), player.getY(),
-					null);
+			g.drawImage(player.getImage(), player.getX(), player.getY(),null);
+
+		for(int i = 0; i < obstacles.size(); i++){
+			Obstacles o = obstacles.get(i);
+			if (o.isVisible())
+				g.drawImage(o.getImage(), o.getX(), o.getY(), null);
+		}
 	}
+
 
 	public void keyPressed(java.awt.event.KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -74,6 +93,9 @@ public class GameScreen implements Screen{
 		if(key == KeyEvent.VK_SPACE) {
 			//PAUSE THE SCORE
 			alive = !alive;	
+		}
+		if(key == KeyEvent.VK_Q) {
+			screens.setScreen(0);
 		}
 	}
 
