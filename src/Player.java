@@ -124,7 +124,6 @@ public class Player {
 
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
-
 		if (key == KeyEvent.VK_LEFT) {
 			dx = 0;
 		}

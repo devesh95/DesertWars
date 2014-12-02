@@ -21,8 +21,11 @@ public class GameScreen implements Screen{
 	private double bgspeed;
 	private double score;
 	private int lives;
+	private int count;
 	private boolean alive;
+	private boolean bosskilled;
 	private Player player;
+	private AIBoss boss;
 	private TreeSet<Obstacles> obstacles;
 	private ArrayList<Missiles> weapons;
 
@@ -46,6 +49,7 @@ public class GameScreen implements Screen{
 		alive = true;
 		player = new Player("player.gif");
 		addObstacles();
+		bosskilled = false;
 	}
 
 	public void update() {
@@ -73,11 +77,18 @@ public class GameScreen implements Screen{
 		checkCollisions();
 
 		if(score % (int) (100*Math.random() + 20) == 0) {
-			addObstacles();
+			if(boss == null)
+				addObstacles();
 		}
+		
+		if(score > 100 && !bosskilled && count < 1) {
+			count += 1;
+			initAIBoss();
+		}
+		
+		if(boss != null)
+			boss.move();
 
-		//for(int i = 0; i < obstacles.size(); i++){
-		//Obstacles o = obstacles.get(i);
 		Iterator<Obstacles> iter = obstacles.iterator();
 		while(iter.hasNext()) {
 			Obstacles o = iter.next();
@@ -86,7 +97,6 @@ public class GameScreen implements Screen{
 			else
 				o.kill();
 			if(o.getY() > MainPanel.HEIGHT)
-				//obstacles.remove(i);
 				obstacles.remove(o);
 		}
 		weapons = player.getMissiles();
@@ -107,11 +117,13 @@ public class GameScreen implements Screen{
 				(int) (12 * Math.random()) + 3, 
 				"obstacles.gif"));
 	}
+	public void initAIBoss() {
+		boss = new AIBoss(500, 300, "player.gif", this.player);
+		boss.move();
+	}
 
 	public void checkCollisions() {
 		Rectangle playerbound = player.getBounds();
-		//for (int j = 0; j<obstacles.size(); j++) {
-		//Obstacles o = obstacles.get(j);
 		Iterator<Obstacles> iter = obstacles.iterator();
 		while(iter.hasNext()) {
 			Obstacles o = iter.next();
@@ -128,14 +140,13 @@ public class GameScreen implements Screen{
 				}
 			}
 		}
+
 		weapons = player.getMissiles();
 		for (int i = 0; i < weapons.size(); i++) {
 			Missiles m = weapons.get(i);
 
 			Rectangle r1 = m.getBounds();
 
-			//for (int j = 0; j<obstacles.size(); j++) {
-			//Obstacles a = obstacles.get(j);
 			Iterator<Obstacles> iter2 = obstacles.iterator();
 			while(iter2.hasNext()) {
 				Obstacles a = iter2.next();
@@ -144,6 +155,27 @@ public class GameScreen implements Screen{
 				if (r1.intersects(r2)) {
 					m.setVisible(false);
 					a.setActivity(false);
+				}
+			}
+
+			if(boss != null) {
+				Rectangle bossbounds = boss.getBounds();
+				if(r1.intersects(bossbounds)){
+					bosskilled = true;
+					boss = null;
+					m.setVisible(false);
+				}
+			}
+		}
+		if(boss != null) {
+			Rectangle bossbounds = boss.getBounds();
+			if(playerbound.intersects(bossbounds)){
+				bosskilled = true;
+				boss = null;
+				lives -= 1;
+				if(lives < 1) {
+					lives = 0;
+					alive = false;
 				}
 			}
 		}
@@ -175,12 +207,14 @@ public class GameScreen implements Screen{
 		//draw the player
 		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 		//draw the obstacles
-		//for(int i = 0; i < obstacles.size(); i++){
-		//Obstacles o = obstacles.get(i);
-		Iterator<Obstacles> iter = obstacles.iterator();
-		while(iter.hasNext()){
-			Obstacles o = iter.next();
-			g.drawImage(o.getImage(), o.getX(), o.getY(), null);
+		if(boss != null) {
+			g.drawImage(boss.getImage(), boss.getX(), boss.getY(), null);
+		}else{
+			Iterator<Obstacles> iter = obstacles.iterator();
+			while(iter.hasNext()){
+				Obstacles o = iter.next();
+				g.drawImage(o.getImage(), o.getX(), o.getY(), null);
+			}
 		}
 		//draw missiles
 		for (int i = 0; i < weapons.size(); i++) {
@@ -189,7 +223,6 @@ public class GameScreen implements Screen{
 		}
 
 	}
-
 
 	public void keyPressed(java.awt.event.KeyEvent e) {
 		// TODO Auto-generated method stub
