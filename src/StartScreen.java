@@ -42,9 +42,9 @@ public class StartScreen implements Screen {
 		//draw TITLE
 		g.setFont(new Font("Helvetica",Font.PLAIN,72));
 		g.setColor(new Color(100,100,100));
-		g.drawString("SPACE WARS", 217, 133);
+		g.drawString("DIRT WARS", 232, 133);
 		g.setColor(new Color(255,255,255));
-		g.drawString("SPACE WARS", 220, 130);
+		g.drawString("DIRT WARS", 235, 130);
 
 		
 		//draw MENU OPTIONS
@@ -67,16 +67,14 @@ public class StartScreen implements Screen {
 			switch(choice){
 			case 0:
 				//start game
-				System.out.println("Game request");
 				screens.setScreen(screens.MAINLEVEL);
 				break;
 			case 1: 
 				//show instructions
-				System.out.println("NO HELP");
+				screens.setScreen(screens.INSTRUCTIONS);
 				break;
 			case 2:
 				//show scores
-				System.out.println("No scores as yet");
 				break;
 			case 3:
 				//close game

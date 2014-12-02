@@ -3,6 +3,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import com.sun.glass.events.KeyEvent;
 
@@ -58,10 +61,14 @@ public class GameScreen implements Screen{
 			}
 			player.move();
 		}else if(!alive){
-			bg.setSpeed(0,0);
+			if(bgspeed < 0) 
+				bgspeed += 1.0;
+			else 
+				bgspeed = 0;
+			bg.setSpeed(bgspeed,0);
 			player.die();
 		}
-		
+
 		bg.move();
 		checkCollisions();
 
@@ -94,7 +101,7 @@ public class GameScreen implements Screen{
 				MainPanel.WIDTH + 35, 
 				(int) ((MainPanel.HEIGHT - 300)*Math.random()), 
 				(int) (12 * Math.random()) + 3, 
-				"obstacles.png"));
+				"obstacles.gif"));
 	}
 
 	public void checkCollisions() {
@@ -135,17 +142,34 @@ public class GameScreen implements Screen{
 	public void draw(Graphics2D g) {
 		//draw the background
 		bg.draw(g);
-		//draw the score + lives
-		g.setFont(new Font("Helvetica",Font.PLAIN,25));
-		g.setColor(new Color(255,255,255));
-		g.drawString("Score: "+score, 30, 30);
-		g.drawString("Lives left: " + lives, 30, 60);
-		g.drawString("Missiles left: "+player.getNumWeapons(), 700, 30);
+		//draw the score + lives with some text shadow
+		if(alive) {
+			g.setFont(new Font("Helvetica",Font.PLAIN,25));
+			g.setColor(new Color(255,255,255));
+			g.drawString("Score: "+score, 30, 30);
+			g.drawString("Lives left: " + lives, 30, 60);
+			g.drawString("Missiles left: "+player.getNumWeapons(), 700, 30);
+		}else{
+			g.setColor(new Color(100, 100, 100));
+			g.setFont(new Font("Helvetica", Font.BOLD, 72));
+			g.drawString("Game Over!", 238, 272);
+			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
+			g.drawString("Press 'Q' to go back to the main menu", 158, 342);
+			g.setFont(new Font("Helvetica", Font.BOLD, 72));
+			g.setColor(new Color(243, 170, 0));
+			g.drawString("Game Over!", 240, 270);
+			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
+			g.drawString("Press 'Q' to go back to the main menu", 160, 340);
+
+		}
 		//draw the player
 		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 		//draw the obstacles
-		for(int i = 0; i < obstacles.size(); i++){
-			Obstacles o = obstacles.get(i);
+		//for(int i = 0; i < obstacles.size(); i++){
+			//Obstacles o = obstacles.get(i);
+		Iterator<Obstacles> iter = obstacles.iterator();
+		while(iter.hasNext()){
+			Obstacles o = iter.next();
 			g.drawImage(o.getImage(), o.getX(), o.getY(), null);
 		}
 		//draw missiles

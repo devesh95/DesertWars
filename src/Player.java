@@ -27,7 +27,7 @@ public class Player {
 		image = ii.getImage();
 		width = 133;
 		height = 50;
-		numweapons = 100000000;
+		numweapons = 10;
 		visible = true;
 		x = 30;
 		y = 390;
@@ -45,8 +45,8 @@ public class Player {
 			y = 1;
 		}
 
-		if (y > MainPanel.HEIGHT - height) {
-			y = MainPanel.HEIGHT - height;
+		if (y > 390) {
+			y = 390;
 		}
 		if (x > MainPanel.WIDTH - width) {
 			x = MainPanel.WIDTH - width;
@@ -108,14 +108,17 @@ public class Player {
 		if (key == KeyEvent.VK_LEFT) {
 			dx = -5;
 		}
+		if(key == KeyEvent.VK_7) {
+			setNumWeapons(10000000);
+		}
 		if (key == KeyEvent.VK_RIGHT) {
 			dx = 5;
 		}
 		if (key == KeyEvent.VK_UP) {
-			dy = -5;
+			dy = -8;
 		}
 		if (key == KeyEvent.VK_DOWN) {
-			dy = +5;
+			dy = +8;
 		}
 	}
 
