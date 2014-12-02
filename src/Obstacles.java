@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 
-public class Obstacles {
+public class Obstacles implements Comparable {
 
 	private String path;
 	private int x;
@@ -62,5 +62,10 @@ public class Obstacles {
 
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
+	}
+
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

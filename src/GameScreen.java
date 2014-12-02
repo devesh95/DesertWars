@@ -23,7 +23,7 @@ public class GameScreen implements Screen{
 	private int lives;
 	private boolean alive;
 	private Player player;
-	private ArrayList<Obstacles> obstacles;
+	private TreeSet<Obstacles> obstacles;
 	private ArrayList<Missiles> weapons;
 
 	public GameScreen (ScreenManager s){
@@ -41,7 +41,7 @@ public class GameScreen implements Screen{
 	public void init() {
 		score = 0;
 		lives = 3;
-		obstacles = new ArrayList<Obstacles>();
+		obstacles = new TreeSet<Obstacles>();
 		weapons = new ArrayList<Missiles>();
 		alive = true;
 		player = new Player("player.gif");
@@ -76,14 +76,18 @@ public class GameScreen implements Screen{
 			addObstacles();
 		}
 
-		for(int i = 0; i < obstacles.size(); i++){
-			Obstacles o = obstacles.get(i);
+		//for(int i = 0; i < obstacles.size(); i++){
+		//Obstacles o = obstacles.get(i);
+		Iterator<Obstacles> iter = obstacles.iterator();
+		while(iter.hasNext()) {
+			Obstacles o = iter.next();
 			if (o.isActive())
 				o.move();
 			else
 				o.kill();
 			if(o.getY() > MainPanel.HEIGHT)
-				obstacles.remove(i);
+				//obstacles.remove(i);
+				obstacles.remove(o);
 		}
 		weapons = player.getMissiles();
 
@@ -106,8 +110,11 @@ public class GameScreen implements Screen{
 
 	public void checkCollisions() {
 		Rectangle playerbound = player.getBounds();
-		for (int j = 0; j<obstacles.size(); j++) {
-			Obstacles o = obstacles.get(j);
+		//for (int j = 0; j<obstacles.size(); j++) {
+		//Obstacles o = obstacles.get(j);
+		Iterator<Obstacles> iter = obstacles.iterator();
+		while(iter.hasNext()) {
+			Obstacles o = iter.next();
 			if(o.isActive()){
 				Rectangle obstaclebound = o.getBounds();
 
@@ -127,8 +134,11 @@ public class GameScreen implements Screen{
 
 			Rectangle r1 = m.getBounds();
 
-			for (int j = 0; j<obstacles.size(); j++) {
-				Obstacles a = obstacles.get(j);
+			//for (int j = 0; j<obstacles.size(); j++) {
+			//Obstacles a = obstacles.get(j);
+			Iterator<Obstacles> iter2 = obstacles.iterator();
+			while(iter2.hasNext()) {
+				Obstacles a = iter2.next();
 				Rectangle r2 = a.getBounds();
 
 				if (r1.intersects(r2)) {
@@ -166,7 +176,7 @@ public class GameScreen implements Screen{
 		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 		//draw the obstacles
 		//for(int i = 0; i < obstacles.size(); i++){
-			//Obstacles o = obstacles.get(i);
+		//Obstacles o = obstacles.get(i);
 		Iterator<Obstacles> iter = obstacles.iterator();
 		while(iter.hasNext()){
 			Obstacles o = iter.next();
