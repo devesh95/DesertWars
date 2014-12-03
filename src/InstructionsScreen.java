@@ -27,16 +27,13 @@ public class InstructionsScreen implements Screen {
 		}
 	}
 
-	public void init() {
-		// TODO Auto-generated method stub
-	}
+	public void init() {}
 
 	public void update() {
 		bg.move();
 	}
 
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
 		bg.draw(g);
 		g.setColor(new Color(1f, 1f, 1f, 0.5f));
 		g.fillRect(100, 50, 700, 500);
@@ -77,7 +74,6 @@ public class InstructionsScreen implements Screen {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_Q) {
 			screens.setScreen(0);
@@ -85,7 +81,6 @@ public class InstructionsScreen implements Screen {
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

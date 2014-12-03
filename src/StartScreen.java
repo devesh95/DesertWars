@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import com.sun.glass.events.KeyEvent;
 
 /**
@@ -11,11 +13,11 @@ public class StartScreen implements Screen {
 
 	ScreenManager screens;
 	MovingBackground bg;
-	
+
 	//options for the start screen can be another ArrayList
 	private ArrayList<String> options;
 	private int choice = 0;
-	
+
 	public StartScreen (ScreenManager s) {
 		this.screens = s;
 		options = new ArrayList<String>();
@@ -26,39 +28,37 @@ public class StartScreen implements Screen {
 		try{
 			bg = new MovingBackground("startscreen.png");
 			bg.setSpeed(-4, 0);
-			
-			
+
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void init(){};
 	public void update(){ bg.move(); };
-	
+
 	public void draw(Graphics2D g) { 
 		bg.draw(g); 
-		
-		//draw TITLE
-		g.setFont(new Font("Helvetica",Font.PLAIN,72));
-		g.setColor(new Color(100,100,100));
-		g.drawString("DIRT WARS", 232, 133);
-		g.setColor(new Color(255,255,255));
-		g.drawString("DIRT WARS", 235, 130);
 
-		
+		//draw TITLE
+		ImageIcon titlei = new ImageIcon(this.getClass().getResource("title.gif"));
+		Image title = titlei.getImage();
+		g.drawImage(title, 30, 60, null);
+
+
 		//draw MENU OPTIONS
 		g.setFont(new Font("Helvetica",Font.PLAIN, 30));
 		for (int i=0; i< options.size(); i++) {
 			if(i == choice){
-				g.setColor(new Color(0, 178, 45));
+				g.setColor(new Color(100, 100, 100));
 				g.setFont(new Font("Helvetica", Font.BOLD,30));
 			}
 			else{
 				g.setColor(new Color(255, 255, 255));
 				g.setFont(new Font("Helvetica", Font.PLAIN,30));
 			}
-			g.drawString(options.get(i), 350, 230 + (i*35));
+			g.drawString(options.get(i), 350, 250 + (i*35));
 		}
 	};
 	public void keyPressed(java.awt.event.KeyEvent e){

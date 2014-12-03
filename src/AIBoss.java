@@ -10,9 +10,10 @@ public class AIBoss {
 	private int width;
 	private int height;
 	private int dy;
-	private boolean active;
+	private int dx;
 	private Image image;
 	private Player player;
+	private boolean alive;
 
 	public AIBoss(int x, int y, String location, Player p) {
 		this.path = location;
@@ -21,10 +22,11 @@ public class AIBoss {
 		image = ii.getImage();
 		this.x = x;
 		this.y = y;
-		this.width = image.getHeight(null);
-		this.height = image.getWidth(null);
-		this.active = true;
-		dy = 7;
+		this.width = 173;
+		this.height = 92;
+		this.alive = true;
+		dy = 5;
+		dx = 4;
 	}
 
 	public int getX() {
@@ -36,21 +38,33 @@ public class AIBoss {
 	}
 
 	public void move() {
+		//Automatically detects where the player is and moves towards it 
 		y -= dy;
-		if(y < 1)
-			dy = -7;
-		if(y > 500 - height) 
-			dy = 7;
-		if(player.weaponsFired()){
-			//do something
+		x -= dx;
+		if(y < 1){
+			dy = -5;
+			smartMove();
 		}
-
+		if(y > 450 - height) {
+			dy = 5;
+			smartMove();
+		}
+		if(x < 1)
+			dx = -dy;
+		if(x > 720)
+			dx = -dy;
 	}
-	public boolean isActive(){
-		return active;
+	
+	public void smartMove() {
+		if(player.getX() < x)
+			dx = 4;
+		else
+			dx = -4;
 	}
-	public void setActivity(boolean activity) {
-		this.active = activity;
+	public void kill() {
+		y += 15;
+		if(y > MainPanel.HEIGHT + height + 100)
+			y = MainPanel.HEIGHT + height + 100;
 	}
 	public Image getImage() {
 		return image;
@@ -58,6 +72,12 @@ public class AIBoss {
 
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
+	}
+	public boolean isAlive() {
+		return alive;
+	}
+	public void setLife(boolean b) {
+		this.alive = b;
 	}
 
 }

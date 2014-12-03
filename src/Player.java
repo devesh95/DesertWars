@@ -106,13 +106,13 @@ public class Player {
 			fireWeapons();
 		}
 		if (key == KeyEvent.VK_LEFT) {
-			dx = -5;
+			dx = -7;
 		}
 		if(key == KeyEvent.VK_7) {
 			setNumWeapons(10000000);
 		}
 		if (key == KeyEvent.VK_RIGHT) {
-			dx = 5;
+			dx = 7;
 		}
 		if (key == KeyEvent.VK_UP) {
 			dy = -8;

@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 
 /**
  * cool moving background for the start screen
+ * made completely generic so that it can be used as needed later on
  * @author deveshdayal
  */
 public class MovingBackground {
@@ -16,7 +17,6 @@ public class MovingBackground {
 	private double dx;
 	private double dy;
 	
-	//make a generic constructor in case this is needed later on
 	MovingBackground(String filename) {
 		try{
 			background = ImageIO.read(getClass().getResourceAsStream(filename));
@@ -26,7 +26,7 @@ public class MovingBackground {
 		}
 	}
 	
-	public void setPosition(double x, double y){
+	public void speedPosition(double x, double y){
 		this.x = x / MainPanel.WIDTH;
 		this.y = y / MainPanel.HEIGHT;
 	}
@@ -39,6 +39,14 @@ public class MovingBackground {
 	public void move() {
 		x += dx;
 		y += dy;
+	}
+	
+	public double getDX(){
+		return dx;
+	}
+	
+	public double getDY(){
+		return dy;
 	}
 	
 	public void draw(Graphics2D g) {

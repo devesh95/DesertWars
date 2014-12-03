@@ -58,7 +58,6 @@ public class MainPanel extends JPanel implements Runnable, KeyListener{
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
 		init();
 
 		while(game){
@@ -80,39 +79,29 @@ public class MainPanel extends JPanel implements Runnable, KeyListener{
 
 	private void onScreen() {
 		Graphics g2 = getGraphics();
-		//draw on the top corner of the window
 		g2.drawImage(image, 0, 0, null);
 		Toolkit.getDefaultToolkit().sync();
 		g2.dispose();
 	}
 
 	private void draw() {
-		// TODO Auto-generated method stub
 		screens.draw(g);
 	}
 
 	private void update() {
-		// TODO Auto-generated method stub
 		screens.update();
 	}
 
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		screens.keyPressed(e);
 		
 		if (e.getKeyCode()==KeyEvent.VK_ESCAPE)
-		{
 			System.exit(0);
-		}       
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		screens.keyReleased(e);
 	}
 }
