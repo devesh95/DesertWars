@@ -20,6 +20,7 @@ public class ScreenManager {
 		screens.add(new StartScreen(this));
 		screens.add(new GameScreen(this));
 		screens.add(new InstructionsScreen(this));
+		screens.add(new HighScoreScreen(this));
 	}
 	
 	public void setScreen(int a) {

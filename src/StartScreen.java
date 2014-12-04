@@ -48,17 +48,17 @@ public class StartScreen implements Screen {
 
 
 		//draw MENU OPTIONS
-		g.setFont(new Font("Helvetica",Font.PLAIN, 30));
+		g.setFont(new Font("IMPACT",Font.PLAIN, 50));
 		for (int i=0; i< options.size(); i++) {
 			if(i == choice){
 				g.setColor(new Color(100, 100, 100));
-				g.setFont(new Font("Helvetica", Font.BOLD,30));
+				g.setFont(new Font("Impact", Font.BOLD,50));
 			}
 			else{
 				g.setColor(new Color(255, 255, 255));
-				g.setFont(new Font("Helvetica", Font.PLAIN,30));
+				g.setFont(new Font("Impact", Font.PLAIN,50));
 			}
-			g.drawString(options.get(i), 350, 250 + (i*35));
+			g.drawString(options.get(i), 350, 250 + (i*45));
 		}
 	};
 	public void keyPressed(java.awt.event.KeyEvent e){
@@ -74,7 +74,7 @@ public class StartScreen implements Screen {
 				screens.setScreen(screens.INSTRUCTIONS);
 				break;
 			case 2:
-				//show scores
+				screens.setScreen(screens.HIGHSCORES);
 				break;
 			case 3:
 				//close game

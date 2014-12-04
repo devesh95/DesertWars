@@ -26,6 +26,7 @@ public class GameScreen implements Screen{
 	private TreeSet<Enemies> enemies;
 	private ArrayList<AIBoss> boss;
 	private ArrayList<Missiles> weapons;
+	private HighScoreManager hsm;
 
 	public GameScreen (ScreenManager s){
 		this.screens = s;
@@ -49,6 +50,7 @@ public class GameScreen implements Screen{
 		alive = true;
 		player = new Player("player.gif");
 		addEnemies();
+		hsm = new HighScoreManager();
 	}
 
 	public void update() {
@@ -233,6 +235,8 @@ public class GameScreen implements Screen{
 		int key = e.getKeyCode();
 		player.keyPressed(e);
 		if(key == KeyEvent.VK_Q) {
+			if(!alive)
+				hsm.addScore((int)score);
 			screens.setScreen(0);
 		}
 	}
