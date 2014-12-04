@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel implements Runnable, KeyListener{
 
-	final static int WIDTH = 900;
+	final static int WIDTH = 866;
 	final static int HEIGHT = 644;
 
 	private long rate = 1000/60;

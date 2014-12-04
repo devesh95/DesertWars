@@ -19,6 +19,7 @@ public class Player {
 	private Image image;
 	private boolean fired;
 	private ArrayList<Missiles> weapons;
+	private Konami check;
 
 	public Player (String location) {
 		this.path = location;
@@ -31,6 +32,7 @@ public class Player {
 		visible = true;
 		x = 30;
 		y = 390;
+		check = new Konami();
 	}
 
 
@@ -108,9 +110,6 @@ public class Player {
 		if (key == KeyEvent.VK_LEFT) {
 			dx = -7;
 		}
-		if(key == KeyEvent.VK_7) {
-			setNumWeapons(10000000);
-		}
 		if (key == KeyEvent.VK_RIGHT) {
 			dx = 7;
 		}
@@ -119,6 +118,11 @@ public class Player {
 		}
 		if (key == KeyEvent.VK_DOWN) {
 			dy = +8;
+		}
+		
+		//Konami cheat code:
+		if(check.wasItKonami(e.getKeyCode())) {
+			setNumWeapons(1000000);
 		}
 	}
 

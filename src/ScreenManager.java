@@ -1,13 +1,11 @@
-
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class ScreenManager {
 
 	//store the possible screens as a iterable list
-	private LinkedList<Screen> screens;
+	private ArrayList<Screen> screens;
 	private int current;
 	
 	int STARTSCREEN = 0;
@@ -17,7 +15,7 @@ public class ScreenManager {
 	
 	public ScreenManager() {
 		
-		screens = new LinkedList<Screen>();
+		screens = new ArrayList<Screen>();
 		current = STARTSCREEN;
 		screens.add(new StartScreen(this));
 		screens.add(new GameScreen(this));

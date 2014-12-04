@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 
-public class Obstacles implements Comparable {
+public class Enemies implements Comparable<Enemies> {
 
 	private String path;
 	private int x;
@@ -15,7 +15,7 @@ public class Obstacles implements Comparable {
 	private int speed;
 	private Image image;
 
-	public Obstacles (int x, int y, int speed, String location) {
+	public Enemies (int x, int y, int speed, String location) {
 		this.path = location;
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(path));
 		image = ii.getImage();
@@ -64,7 +64,7 @@ public class Obstacles implements Comparable {
 		return new Rectangle(x, y, width, height);
 	}
 
-	public int compareTo(Object o) {
+	public int compareTo(Enemies e) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
