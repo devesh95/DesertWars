@@ -1,3 +1,9 @@
+
+/**
+ * Class to check if the Konami code was entered
+ * @author deveshdayal
+ *
+ */
 public class Konami {
 	
 	int[] konami = {38, 38, 40, 40, 37, 39, 37, 39, 66, 65};

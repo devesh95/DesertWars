@@ -49,16 +49,18 @@ public class StartScreen implements Screen {
 
 		//draw MENU OPTIONS
 		g.setFont(new Font("IMPACT",Font.PLAIN, 50));
+		FontMetrics f = g.getFontMetrics();
 		for (int i=0; i< options.size(); i++) {
 			if(i == choice){
 				g.setColor(new Color(100, 100, 100));
 				g.setFont(new Font("Impact", Font.BOLD,50));
 			}
 			else{
-				g.setColor(new Color(255, 255, 255));
+				g.setColor(new Color(232, 146, 113));
 				g.setFont(new Font("Impact", Font.PLAIN,50));
 			}
-			g.drawString(options.get(i), 350, 250 + (i*45));
+			int width = f.stringWidth(options.get(i));
+			g.drawString(options.get(i), MainPanel.WIDTH/2 - width/2, 250 + (i*48));
 		}
 	};
 	public void keyPressed(java.awt.event.KeyEvent e){

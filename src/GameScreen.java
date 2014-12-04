@@ -87,7 +87,7 @@ public class GameScreen implements Screen{
 				}
 				for (int i = 0; i < boss.size(); i++) {
 					if(boss.get(i).isAlive())
-						boss.get(i).move();
+						boss.get(i).attack();
 					else
 						boss.get(i).kill();
 					if(boss.get(i).getY() > MainPanel.HEIGHT)
@@ -124,7 +124,7 @@ public class GameScreen implements Screen{
 				(int) (10 * Math.random()) + 10, 
 				"obstacles.gif"));
 	}
-	
+
 	public void addAIBoss() {
 		boss.add(new AIBoss(720, 300, "boss.png", this.player));
 	}
@@ -165,9 +165,10 @@ public class GameScreen implements Screen{
 				}
 			}
 
-			for(int j =0; i < boss.size(); i++) {
+			for(int j = 0; i < boss.size(); i++) {
 				Rectangle bossbounds = boss.get(j).getBounds();
 				if(r1.intersects(bossbounds)){
+					lives = 3;
 					boss.get(j).setLife(false);
 					m.setVisible(false);
 				}
@@ -176,6 +177,7 @@ public class GameScreen implements Screen{
 		for (int i =0; i<boss.size(); i++) {
 			Rectangle bossbounds = boss.get(i).getBounds();
 			if(playerbound.intersects(bossbounds)){
+				boss.get(i).setLife(false);
 				alive = false;
 			}
 		}
@@ -185,31 +187,6 @@ public class GameScreen implements Screen{
 		//draw the background
 		bg.draw(g);
 
-		if(alive) {
-			g.setFont(new Font("Helvetica",Font.BOLD,25));
-			g.setColor(new Color(100, 100, 100));
-			g.drawString("Score: "+score, 20, 30);
-			g.drawString("Missiles left: "+ player.getNumWeapons(), 660, 30);
-			if(lives != livesx) {
-				g.setColor(new Color(255,100,0));
-			}else{
-				g.setColor(new Color(255,255,255));
-			}
-			g.drawString("Lives left: " + lives, 20, 60);
-		}else{
-			g.setColor(new Color(100, 100, 100));
-			g.setFont(new Font("Helvetica", Font.BOLD, 72));
-			g.drawString("SCORE "+score, 300, 400);
-			g.drawString("Game Over!", 238, 272);
-			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
-			g.drawString("Press 'Q' to go back to the main menu", 158, 342);
-			g.setFont(new Font("Helvetica", Font.BOLD, 72));
-			g.setColor(new Color(243, 170, 0));
-			g.drawString("Game Over!", 240, 270);
-			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
-			g.drawString("Press 'Q' to go back to the main menu", 160, 340);
-
-		}
 		//draw the player
 		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
@@ -229,6 +206,31 @@ public class GameScreen implements Screen{
 			g.drawImage(m.getImage(), m.getX(), m.getY(), null);
 		}
 
+		if(alive) {
+			g.setFont(new Font("Helvetica",Font.BOLD,25));
+			g.setColor(new Color(100, 100, 100));
+			g.drawString("Score: "+score, 20, 30);
+			g.drawString("Missiles left: "+ player.getNumWeapons(), 660, 30);
+			if(lives != livesx) {
+				g.setColor(new Color(255,100,0));
+			}else{
+				g.setColor(new Color(255,255,255));
+			}
+			g.drawString("Lives left: " + lives, 20, 60);
+		}else{
+			g.setColor(new Color(100, 100, 100));
+			g.setFont(new Font("Helvetica", Font.BOLD, 72));
+			g.drawString("SCORE "+score, 200, 130);
+			g.drawString("Game Over!", 238, 272);
+			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
+			g.drawString("Press 'Q' to go back to the main menu", 158, 342);
+			g.setFont(new Font("Helvetica", Font.BOLD, 72));
+			g.setColor(new Color(243, 170, 0));
+			g.drawString("Game Over!", 240, 270);
+			g.setFont(new Font("Helvetica", Font.PLAIN, 36));
+			g.drawString("Press 'Q' to go back to the main menu", 160, 340);
+
+		}
 	}
 
 	public void keyPressed(java.awt.event.KeyEvent e) {

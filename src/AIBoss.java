@@ -9,8 +9,8 @@ public class AIBoss {
 	private int y;
 	private int width;
 	private int height;
-	private int dy;
-	private int dx;
+	private double dy;
+	private double dx;
 	private Image image;
 	private Player player;
 	private boolean alive;
@@ -23,10 +23,10 @@ public class AIBoss {
 		this.x = x;
 		this.y = y;
 		this.width = 173;
-		this.height = 92;
+		this.height = 98;
 		this.alive = true;
 		dy = 5;
-		dx = 4;
+		dx = 1;
 	}
 
 	public int getX() {
@@ -37,31 +37,46 @@ public class AIBoss {
 		return y;
 	}
 
-	public void move() {
+	public void attack() {
 		//Automatically detects where the player is and moves towards it 
 		y -= dy;
 		x -= dx;
+		if(y < 1 || y > 450 - height){
+			dy = -dy;
+		}
+		else if(x < 1 || x > 720)
+			dx = -dx;
+		else
+			smartMove();
+	}
+
+	public void defend() {
+		y -= dy;
 		if(y < 1){
 			dy = -5;
-			smartMove();
 		}
 		if(y > 450 - height) {
 			dy = 5;
-			smartMove();
 		}
-		if(x < 1)
-			dx = -dy;
-		if(x > 720)
-			dx = -dy;
 	}
-	
+
 	public void smartMove() {
-		if(player.getX() < x)
-			dx = 4;
-		else
-			dx = -4;
+		double choice = Math.random();
+		if(choice < 0.5) {
+			if(player.getX() < x)
+				dx = 1;
+			else
+				dx = -1;
+		}else{
+			if(player.getY() < y-45)
+				dy = 5;
+			else
+				dy = -5;
+		}
 	}
+
 	public void kill() {
+		x += 15;
 		y += 15;
 		if(y > MainPanel.HEIGHT + height + 100)
 			y = MainPanel.HEIGHT + height + 100;

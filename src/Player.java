@@ -28,7 +28,7 @@ public class Player {
 		image = ii.getImage();
 		width = 133;
 		height = 50;
-		numweapons = 10;
+		numweapons = 20;
 		visible = true;
 		x = 30;
 		y = 390;
@@ -122,7 +122,7 @@ public class Player {
 		
 		//Konami cheat code:
 		if(check.wasItKonami(e.getKeyCode())) {
-			setNumWeapons(1000000);
+			setNumWeapons(100);
 		}
 	}
 

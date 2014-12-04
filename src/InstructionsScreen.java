@@ -49,7 +49,7 @@ public class InstructionsScreen implements Screen {
 		g.setColor(new Color(0f, 0f, 0f, 0.7f));
 		g.drawString("Survive as long as you can against the onslaught of spaceships",
 				130, 160);
-		g.drawString("coming at you.  Infinitely.  Watch out for the AI boss!",
+		g.drawString("coming at you.  Beware: crashing into a boss is instant death!",
 				130, 200);
 		g.drawLine(450, 230, 450, 480);
 		g.drawString("\u2190", 125, 310);
