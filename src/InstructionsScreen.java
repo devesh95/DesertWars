@@ -1,10 +1,16 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 public class InstructionsScreen implements Screen {
@@ -12,7 +18,6 @@ public class InstructionsScreen implements Screen {
 	private ScreenManager screens;
 	private MovingBackground bg;
 	private double bgspeed;
-	private Image image1, image2;
 
 	public InstructionsScreen (ScreenManager s) {
 		this.screens = s;
@@ -46,12 +51,15 @@ public class InstructionsScreen implements Screen {
 		g.setFont(new Font("Impact", Font.PLAIN, 25));
 		g.drawString("Main Menu", 230, 425);
 		g.drawString("Quit game", 230, 460);
+		g.drawString("More Missiles! More Konami!", 470, 330);
 		g.setColor(new Color(0f, 0f, 0f, 0.7f));
 		g.drawString("Survive as long as you can against the onslaught of spaceships",
 				130, 160);
 		g.drawString("coming at you.  Beware: crashing into a boss is instant death!",
 				130, 200);
+		g.drawString("Press 'F' to see full details.", 490, 390);
 		g.drawLine(450, 230, 450, 480);
+		g.drawLine(460, 350, 790, 350);
 		g.drawString("\u2190", 125, 310);
 		g.drawString("\u2192", 180, 310);
 		g.drawString("\u2191", 160, 290);
@@ -65,22 +73,41 @@ public class InstructionsScreen implements Screen {
 		g.drawString("Q", 160, 425);
 		g.drawString("ESC", 152, 455);
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("player.gif"));
-		image1 = ii.getImage();
-		g.drawImage(image1, 220, 270, null);
-		ImageIcon i2 = new ImageIcon(this.getClass().getResource("missile.gif"));
-		image2 = i2.getImage();
-		g.drawImage(image2, 240, 365, null);
+		g.drawImage(ii.getImage(), 220, 270, null);
+		ImageIcon ij = new ImageIcon(this.getClass().getResource("missile.gif"));
+		g.drawImage(ij.getImage(), 240, 365, null);
+		ImageIcon ik = new ImageIcon(this.getClass().getResource("konami.png"));
+		g.drawImage(ik.getImage(), 460, 270, null);
+		ImageIcon il = new ImageIcon(this.getClass().getResource("boss.png"));
+		g.drawImage(il.getImage(), 530, 395,null);
 	}
+
+	static String readFile(String path, Charset encoding) throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(path));
+		return new String(encoded, encoding);
+	}
+
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_Q) {
 			screens.setScreen(0);
 		}
+		if(key == KeyEvent.VK_F) {
+			try {
+				//edit the README file directly to change instructions
+				JOptionPane.showMessageDialog(null, 
+						readFile("src/README.txt",StandardCharsets.UTF_8));
+			} catch (HeadlessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 
-	public void keyReleased(KeyEvent e) {
-
-	}
+	public void keyReleased(KeyEvent e) {}
 
 }

@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -14,8 +15,10 @@ public class AIBoss {
 	private Image image;
 	private Player player;
 	private boolean alive;
+	private boolean alternate;
+	private ArrayList<Missiles> weapons;
 
-	public AIBoss(int x, int y, String location, Player p) {
+	public AIBoss(int x, int y, String location, Player p, ArrayList<Missiles> m) {
 		this.path = location;
 		this.player = p;
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(path));
@@ -25,6 +28,8 @@ public class AIBoss {
 		this.width = 173;
 		this.height = 98;
 		this.alive = true;
+		this.alternate = true;
+		this.weapons = m;
 		dy = 5;
 		dx = 1;
 	}
@@ -46,32 +51,39 @@ public class AIBoss {
 		}
 		else if(x < 1 || x > 720)
 			dx = -dx;
-		else
-			smartMove();
-	}
-
-	public void defend() {
-		y -= dy;
-		if(y < 1){
-			dy = -5;
-		}
-		if(y > 450 - height) {
-			dy = 5;
+		else {
+			if(weapons.size() > 0){
+				smartDodge();
+			}
+			else {
+				smartMove();
+			}
 		}
 	}
 
 	public void smartMove() {
-		double choice = Math.random();
-		if(choice < 0.5) {
-			if(player.getX() < x)
-				dx = 1;
-			else
-				dx = -1;
-		}else{
-			if(player.getY() < y-45)
+		double think = Math.random();
+		if(think < 0.50) {
+			int pY = player.getY();
+			if(pY - player.height > y)
+				dy = - 5;
+			else if(y > pY + player.height)
 				dy = 5;
 			else
-				dy = -5;
+				dy = 0;
+		}
+	}
+
+	public void smartDodge() {
+		for(int i = 0; i< weapons.size(); i++){
+			int mY = weapons.get(i).getY();
+			if(mY - 20 > y && mY + 20 < y + height){
+				if(alternate) 
+					incrBY(6, 20);
+				else 
+					incrBY(-6, 20);
+				alternate = !alternate;
+			}
 		}
 	}
 
@@ -81,6 +93,15 @@ public class AIBoss {
 		if(y > MainPanel.HEIGHT + height + 100)
 			y = MainPanel.HEIGHT + height + 100;
 	}
+	
+	public void incrBY(int v, int cap) {
+		dy -= v;
+		if(dy > cap)
+			dy = cap;
+		else if(dy < (-1*cap))
+			dy = (1*cap);
+	}
+	
 	public Image getImage() {
 		return image;
 	}

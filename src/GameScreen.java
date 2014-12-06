@@ -5,8 +5,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
-
-import com.sun.glass.events.KeyEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * Main game screen
@@ -27,6 +26,7 @@ public class GameScreen implements Screen{
 	private ArrayList<AIBoss> boss;
 	private ArrayList<Missiles> weapons;
 	private HighScoreManager hsm;
+	private int bossfrequency;
 
 	public GameScreen (ScreenManager s){
 		this.screens = s;
@@ -51,14 +51,15 @@ public class GameScreen implements Screen{
 		player = new Player("player.gif");
 		addEnemies();
 		hsm = new HighScoreManager();
+		bossfrequency = 1500;
 	}
 
 	public void update() {
 		if(alive){
 			if(lives > 0) {
 				player.move();
-				if(bgspeed > -6.0) 
-					bgspeed = -6.0;
+				if(bgspeed > -4.0) 
+					bgspeed = -4.0;
 				else
 					this.bgspeed -= 0.1;
 				bg.setSpeed(bgspeed, 0);
@@ -80,7 +81,7 @@ public class GameScreen implements Screen{
 
 				for (int i = 0; i < weapons.size(); i++) {
 					Missiles m = weapons.get(i);
-					if (m.isVisible() && player.weaponsFired())
+					if (m.isVisible())
 						m.move();
 					else if(!m.isVisible())
 						weapons.remove(i);
@@ -93,11 +94,13 @@ public class GameScreen implements Screen{
 					if(boss.get(i).getY() > MainPanel.HEIGHT)
 						boss.remove(i);
 				}
-				if((score % (1500)) == 0 ) {
+				if((score % (bossfrequency)) == 0 ) {
 					//create a new boss every time the score reaches a multiple 
 					//of 1500 which CAN stack onto existing bosses
 					addAIBoss();
 				}
+				
+				player.updateTimer();
 			}
 		}else if(!alive){
 			if(bgspeed < 0) 
@@ -111,7 +114,7 @@ public class GameScreen implements Screen{
 		bg.move();
 		checkCollisions();
 
-		if(score % (int) (100*Math.random() + 20) == 0) {
+		if(score % (int) (50*Math.random()+20) == 0) {
 			//add enemies at a random time, position and speed
 			addEnemies();
 		}
@@ -126,7 +129,7 @@ public class GameScreen implements Screen{
 	}
 
 	public void addAIBoss() {
-		boss.add(new AIBoss(720, 300, "boss.png", this.player));
+		boss.add(new AIBoss(720, 300, "boss.png", this.player, weapons));
 	}
 
 	public void checkCollisions() {
@@ -169,6 +172,7 @@ public class GameScreen implements Screen{
 				Rectangle bossbounds = boss.get(j).getBounds();
 				if(r1.intersects(bossbounds)){
 					lives = 3;
+					player.add5Weapons();
 					boss.get(j).setLife(false);
 					m.setVisible(false);
 				}

@@ -20,6 +20,8 @@ public class Player {
 	private boolean fired;
 	private ArrayList<Missiles> weapons;
 	private Konami check;
+	private boolean reset;
+	private double timer;
 
 	public Player (String location) {
 		this.path = location;
@@ -33,6 +35,8 @@ public class Player {
 		x = 30;
 		y = 390;
 		check = new Konami();
+		this.timer = 0;
+		this.reset = false;
 	}
 
 
@@ -54,9 +58,6 @@ public class Player {
 			x = MainPanel.WIDTH - width;
 		}
 	}
-	public void setNumWeapons (int num) {
-		this.numweapons = num;
-	}
 	public void die() {
 		y += 5;
 		if(y > MainPanel.HEIGHT + 100)
@@ -74,18 +75,30 @@ public class Player {
 	public Image getImage() {
 		return image;
 	}
-    public ArrayList<Missiles> getMissiles() {
-        return weapons;
-    }
-    public int getNumWeapons() {
-    	return numweapons;
-    }
-    public void fireWeapons() {
-    	if(numweapons > 0) {
-    		weapons.add(new Missiles(x+25, y+5));
-    		numweapons -= 1;
-    	}
-    }
+	public ArrayList<Missiles> getMissiles() {
+		return weapons;
+	}
+	public int getNumWeapons() {
+		return numweapons;
+	}
+	public void add5Weapons() {
+		numweapons += 5;
+	}
+	public void fireWeapons() {
+		if(numweapons > 0) {
+			weapons.add(new Missiles(x+25, y+5));
+			numweapons -= 1;
+		}
+	}
+
+	public void updateTimer() {
+		if (reset) {
+			timer = 0;
+			this.reset = false;
+		}
+		timer += 1;
+	}
+
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
@@ -103,6 +116,7 @@ public class Player {
 
 	public void keyPressed(java.awt.event.KeyEvent e) {
 		int key = e.getKeyCode();
+		this.reset = true;
 		if (key == KeyEvent.VK_SPACE) {
 			fired = true;
 			fireWeapons();
@@ -119,15 +133,23 @@ public class Player {
 		if (key == KeyEvent.VK_DOWN) {
 			dy = +8;
 		}
-		
+
 		//Konami cheat code:
-		if(check.wasItKonami(e.getKeyCode())) {
-			setNumWeapons(100);
-		}
+			if(check.wasItKonami(e.getKeyCode())) {
+				if(timer < 50){
+					numweapons += 100;
+					System.out.println("VALID CODE");
+				}
+				else
+					System.out.println("Timer overload.");
+			}
 	}
 
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_SPACE) {
+			fired= false;
+		}
 		if (key == KeyEvent.VK_LEFT) {
 			dx = 0;
 		}

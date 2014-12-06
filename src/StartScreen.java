@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import com.sun.glass.events.KeyEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * Extended Screen class to make a starting screen
