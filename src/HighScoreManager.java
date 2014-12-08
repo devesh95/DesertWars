@@ -10,7 +10,7 @@ public class HighScoreManager {
 	private ArrayList<Score> scores;
 
 	// The name of the file where the high scores will be saved
-	private static final String HIGHSCORE_FILE = "src/highscores.dat";
+	private static final String HIGHSCORE_FILE = "highscores.dat";
 
 	//Initialising an in and outputStream for working with the file
 	ObjectOutputStream outputStream = null;

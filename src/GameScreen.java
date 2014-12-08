@@ -99,12 +99,12 @@ public class GameScreen implements Screen{
 					//of 1500 which CAN stack onto existing bosses
 					addAIBoss();
 				}
-				
+
 				player.updateTimer();
 			}
 		}else if(!alive){
 			if(bgspeed < 0) 
-				bgspeed += 2.0;
+				bgspeed += 3.0;
 			else 
 				bgspeed = 0;
 			bg.setSpeed(bgspeed,0);
@@ -195,7 +195,8 @@ public class GameScreen implements Screen{
 		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
 		for(int i = 0; i<boss.size(); i++) {
-			g.drawImage(boss.get(i).getImage(), boss.get(i).getX(), boss.get(i).getY(), null);
+			AIBoss aiboss = boss.get(i);
+			g.drawImage(aiboss.getImage(), aiboss.getX(), aiboss.getY(), null);
 			enemies.clear();
 		}
 		//draw the obstacles
