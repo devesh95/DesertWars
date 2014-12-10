@@ -26,7 +26,7 @@ public class HighScoreScreen implements Screen {
 	}
 
 	public void init() {
-		highscores = hsm.getHighscores(10);
+		highscores = hsm.getHighscores();
 		parseScores(highscores);
 	}
 	
@@ -48,10 +48,10 @@ public class HighScoreScreen implements Screen {
 		g.setFont(new Font("Impact", Font.PLAIN, 40));
 		g.setColor(new Color(100,100,100));
 		for(int i = 0; i<scoreList.length/2; i++){
-			g.drawString(scoreList[i], 240, 180+(i*50));
+			g.drawString(scoreList[i], 160, 180+(i*50));
 		}
 		for(int i = 0; i<scoreList.length/2; i++){
-			g.drawString(scoreList[i+scoreList.length/2], 520, 180+(i*50));
+			g.drawString(scoreList[i+scoreList.length/2], 490, 180+(i*50));
 		}
 		g.setColor(new Color(243, 170, 0));
 		g.setFont(new Font("Impact", Font.PLAIN, 32));

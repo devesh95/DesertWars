@@ -97,7 +97,7 @@ public class InstructionsScreen implements Screen {
 			try {
 				//edit the README file directly to change instructions
 				JOptionPane.showMessageDialog(null, 
-						readFile("README.txt",StandardCharsets.UTF_8));
+						readFile("INSTR.txt",StandardCharsets.UTF_8));
 			} catch (HeadlessException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

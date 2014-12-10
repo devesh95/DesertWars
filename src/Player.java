@@ -30,7 +30,7 @@ public class Player {
 		image = ii.getImage();
 		width = 133;
 		height = 50;
-		numweapons = 10;
+		numweapons = 25;
 		visible = true;
 		x = 30;
 		y = 390;

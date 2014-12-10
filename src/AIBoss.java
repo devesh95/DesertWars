@@ -31,7 +31,7 @@ public class AIBoss {
 		this.alternate = true;
 		this.weapons = m;
 		dy = 5;
-		dx = 1;
+		dx = 3;
 	}
 
 	public int getX() {
@@ -51,37 +51,34 @@ public class AIBoss {
 		}
 		else if(x < 1 || x > 720)
 			dx = -dx;
-		else {
-			if(weapons.size() > 0){
-				smartDodge();
-			}
-			else {
-				smartMove();
-			}
+
+		if(weapons.size() > 0 || player.weaponsFired()){
+			smartDodge();
 		}
+		else {
+			smartMove();
+		}
+
 	}
 
 	public void smartMove() {
-		double think = Math.random();
-		if(think < 0.50) {
-			int pY = player.getY();
-			if(pY - player.height > y)
-				dy = - 5;
-			else if(y > pY + player.height)
-				dy = 5;
-			else
-				dy = 0;
-		}
+		int pY = player.getY();
+		if(pY - player.height > y)
+			dy = - 5;
+		else if(y > pY + 2*player.height)
+			dy = 5;
+		else
+			dy = 0;
 	}
 
 	public void smartDodge() {
 		for(int i = 0; i< weapons.size(); i++){
 			int mY = weapons.get(i).getY();
-			if(mY - 20 > y && mY + 20 < y + height){
+			if(mY - 30 > y && mY + 30 < y + height){
 				if(alternate) 
-					incrBY(6, 20);
+					incrBY(10, 15);
 				else 
-					incrBY(-6, 20);
+					incrBY(-10, 15);
 				alternate = !alternate;
 			}
 		}
@@ -93,7 +90,7 @@ public class AIBoss {
 		if(y > MainPanel.HEIGHT + height + 100)
 			y = MainPanel.HEIGHT + height + 100;
 	}
-	
+
 	public void incrBY(int v, int cap) {
 		dy -= v;
 		if(dy > cap)
@@ -101,7 +98,7 @@ public class AIBoss {
 		else if(dy < (-1*cap))
 			dy = (1*cap);
 	}
-	
+
 	public Image getImage() {
 		return image;
 	}

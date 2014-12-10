@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JOptionPane;
+
 /**
  * Main game screen
  * @author deveshdayal
@@ -22,7 +24,7 @@ public class GameScreen implements Screen{
 	private int livesx;
 	private boolean alive;
 	private Player player;
-	private TreeSet<Enemies> enemies;
+	private ArrayList<Enemies> enemies;
 	private ArrayList<AIBoss> boss;
 	private ArrayList<Missiles> weapons;
 	private HighScoreManager hsm;
@@ -44,14 +46,14 @@ public class GameScreen implements Screen{
 		score = 0;
 		lives = 3;
 		livesx = lives;
-		enemies = new TreeSet<Enemies>();
+		enemies = new ArrayList<Enemies>();
 		weapons = new ArrayList<Missiles>();
 		boss = new ArrayList<AIBoss>();
 		alive = true;
 		player = new Player("player.gif");
 		addEnemies();
 		hsm = new HighScoreManager();
-		bossfrequency = 1500;
+		bossfrequency = 750;
 	}
 
 	public void update() {
@@ -66,15 +68,14 @@ public class GameScreen implements Screen{
 
 				score = Math.round(score + 0.5);
 
-				Iterator<Enemies> iter = enemies.iterator();
-				while(iter.hasNext()) {
-					Enemies o = iter.next();
+				for(int i=0;i<enemies.size(); i++) {
+					Enemies o = enemies.get(i);
 					if (o.isActive())
 						o.move();
 					else
 						o.kill();
 					if(o.getY() > MainPanel.HEIGHT)
-						enemies.remove(o);
+						enemies.remove(i);
 				}
 
 				weapons = player.getMissiles();
@@ -114,7 +115,7 @@ public class GameScreen implements Screen{
 		bg.move();
 		checkCollisions();
 
-		if(score % (int) (50*Math.random()+20) == 0) {
+		if(score % (int) (150*Math.random()+25) == 0) {
 			//add enemies at a random time, position and speed
 			addEnemies();
 		}
@@ -134,9 +135,8 @@ public class GameScreen implements Screen{
 
 	public void checkCollisions() {
 		Rectangle playerbound = player.getBounds();
-		Iterator<Enemies> iter = enemies.iterator();
-		while(iter.hasNext()) {
-			Enemies o = iter.next();
+		for(int i=0; i<enemies.size(); i++) {
+			Enemies o = enemies.get(i);
 			if(o.isActive()){
 				Rectangle obstaclebound = o.getBounds();
 
@@ -157,9 +157,8 @@ public class GameScreen implements Screen{
 
 			Rectangle r1 = m.getBounds();
 
-			Iterator<Enemies> iter2 = enemies.iterator();
-			while(iter2.hasNext()) {
-				Enemies a = iter2.next();
+			for(int j=0; j<enemies.size(); j++) {
+				Enemies a = enemies.get(j);
 				Rectangle r2 = a.getBounds();
 
 				if (r1.intersects(r2)) {
@@ -197,12 +196,13 @@ public class GameScreen implements Screen{
 		for(int i = 0; i<boss.size(); i++) {
 			AIBoss aiboss = boss.get(i);
 			g.drawImage(aiboss.getImage(), aiboss.getX(), aiboss.getY(), null);
-			enemies.clear();
+			for(int j=0; j<enemies.size(); j++){
+				enemies.get(j).setActivity(false);
+			}
 		}
 		//draw the obstacles
-		Iterator<Enemies> iter = enemies.iterator();
-		while(iter.hasNext()){
-			Enemies o = iter.next();
+		for(int i=0; i<enemies.size(); i++) {
+			Enemies o = enemies.get(i);
 			g.drawImage(o.getImage(), o.getX(), o.getY(), null);
 		}
 		//draw missiles
@@ -242,8 +242,24 @@ public class GameScreen implements Screen{
 		int key = e.getKeyCode();
 		player.keyPressed(e);
 		if(key == KeyEvent.VK_Q) {
-			if(!alive)
-				hsm.addScore((int)score);
+			if(!alive && (score > hsm.getLowestScore())) {
+				String name = (String) JOptionPane.showInputDialog(
+	                    null,
+	                    "Hold on! Looks like you've made a high score!\n\n"
+	                    + "Enter your username for the Hall Of Fame!\n"
+	                    + "Less than 8 characters please!",
+	                    "New High Score!",
+	                    JOptionPane.PLAIN_MESSAGE,
+	                    null,
+	                    null,
+	                    "Player");
+				
+				if(name.length() > 8)
+					name = "Tiernan";
+				
+				if(name != null)
+					hsm.addScore(name, (int)score);
+			}
 			screens.setScreen(0);
 		}
 	}

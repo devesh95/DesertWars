@@ -49,7 +49,7 @@ public class Missiles {
     }
 
     public void move() {
-        x += 10;
+        x += 15;
         if (x > MainPanel.WIDTH)
             visible = false;
     }

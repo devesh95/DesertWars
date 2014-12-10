@@ -7,16 +7,17 @@ keys, but watch out for the enemies! Colliding with any of the ordinary enemies
 lowers your life by 1 until it reaches 0 - in which case it's game over.
 
 To make things a little easier, you're provided with 3 initial lives. You're also
-given 20 missiles, which can be fired with the SPACE bar to destroy enemies you 
+given 25 missiles, which can be fired with the SPACE bar to destroy enemies you 
 think you can't avoid in time. 
 
 After intervals in the game, the enemies may morph into AI-powered bosses which
 are significantly harder to avoid. Be careful you don't use up all your ammo 
 because you'll probably need at least 3 missiles to kill them. Once you do kill a
-boss however, your lives and weapons are replenished.
+boss however, your lives and weapons are replenished. Or at least, you’ll get 5 more
+missiles.
 
 Cool features:
-- Automatic storage and updating of high scores done using File I/O
-- Intelligent Bosses that have two modes of attacking the player.
-- Konami cheat code (make sure you punch it in correctly) to get 100 missiles!
+- Automatic storage and updating of high scores and names done using File I/O
+- Intelligent Boss that attacks the player and avoid missiles.
+- Konami cheat code (make sure you punch it in quickly and accurately) to get 100 missiles!
 - Super sweet acceleration themed background animation that changes dynamically 
