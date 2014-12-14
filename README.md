@@ -1,5 +1,4 @@
 DESERT WARS
-
 =========================
 
 This game was made with extensibility in mind - it's very easy to add new screens
